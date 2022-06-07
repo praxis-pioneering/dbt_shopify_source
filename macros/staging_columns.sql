@@ -57,7 +57,7 @@
     {"name": "shop_id", "datatype": dbt_utils.type_string()},
     {"name": "shop_country_code", "datatype": dbt_utils.type_string()},
     {"name": "umg_report_date", "datatype": "date"},
-    {"name": "umg_load_time", "datatype": dbt_utils.type_timestamp()}
+    {"name": "umg_load_time", "datatype": dbt_utils.type_timestamp()},
     {"name": "processed_at_eastern", "datatype": "date"},
 ] %}
 
@@ -151,17 +151,31 @@
 {% macro get_product_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_deleted", "datatype": "boolean"},
-    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
+    {"name": "body_html", "datatype": dbt_utils.type_string()},
     {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
     {"name": "handle", "datatype": dbt_utils.type_string()},
     {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "product_id"},
     {"name": "product_type", "datatype": dbt_utils.type_string()},
     {"name": "published_at", "datatype": dbt_utils.type_timestamp(), "alias": "published_timestamp"},
     {"name": "published_scope", "datatype": dbt_utils.type_string()},
+    {"name": "tags", "datatype": dbt_utils.type_string()},
+    {"name": "template_suffix", "datatype": dbt_utils.type_string()},
     {"name": "title", "datatype": dbt_utils.type_string()},
     {"name": "updated_at", "datatype": dbt_utils.type_timestamp(), "alias": "updated_timestamp"},
-    {"name": "vendor", "datatype": dbt_utils.type_string()}
+    {"name": "vendor", "datatype": dbt_utils.type_string()},
+    {"name": "option1", "datatype": dbt_utils.type_string()},
+    {"name": "option2", "datatype": dbt_utils.type_string()},
+    {"name": "option3", "datatype": dbt_utils.type_string()},
+    {"name": "myshopify_domain", "datatype": dbt_utils.type_string()},
+    {"name": "shop_id", "datatype": dbt_utils.type_string()},
+    {"name": "shop_country_code", "datatype": dbt_utils.type_string()},
+    {"name": "product_type_main_category", "datatype": dbt_utils.type_string()},
+    {"name": "product_type_sub_category", "datatype": dbt_utils.type_string()},
+    {"name": "product_type_id", "datatype": dbt_utils.type_string()},
+    {"name": "parent_product_type_id", "datatype": dbt_utils.type_string()},
+    {"name": "umg_report_date", "datatype": "date"},
+    {"name": "umg_load_time", "datatype": dbt_utils.type_timestamp()},
+    {"name": "umg_updated_at", "datatype": "date"},
 ] %}
 
 {{ return(columns) }}
@@ -171,33 +185,38 @@
 {% macro get_product_variant_columns() %}
 
 {% set columns = [
-    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "variant_id"},
-    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
-    {"name": "updated_at", "datatype": dbt_utils.type_timestamp(), "alias": "updated_timestamp"},
-    {"name": "product_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "inventory_item_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "image_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "title", "datatype": dbt_utils.type_string()},
-    {"name": "price", "datatype": dbt_utils.type_float()},
-    {"name": "sku", "datatype": dbt_utils.type_string()},
-    {"name": "position", "datatype": dbt_utils.type_numeric()},
-    {"name": "inventory_policy", "datatype": dbt_utils.type_string()},
-    {"name": "compare_at_price", "datatype": dbt_utils.type_float()},
-    {"name": "fulfillment_service", "datatype": dbt_utils.type_string()},
-    {"name": "inventory_management", "datatype": dbt_utils.type_string()},
-    {"name": "taxable", "datatype": "boolean", "alias": "is_taxable"},
     {"name": "barcode", "datatype": dbt_utils.type_string()},
+    {"name": "compare_at_price", "datatype": dbt_utils.type_float()},
+    {"name": "created_at", "datatype": dbt_utils.type_timestamp(), "alias": "created_timestamp"},
+    {"name": "fulfillment_service", "datatype": dbt_utils.type_string()},
     {"name": "grams", "datatype": dbt_utils.type_float()},
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "variant_id"},
+    {"name": "inventory_management", "datatype": dbt_utils.type_string()},
+    {"name": "inventory_policy", "datatype": dbt_utils.type_string()},
     {"name": "inventory_quantity", "datatype": dbt_utils.type_numeric()},
-    {"name": "weight", "datatype": dbt_utils.type_float()},
-    {"name": "weight_unit", "datatype": dbt_utils.type_string()},
+    {"name": "old_inventory_quantity", "datatype": dbt_utils.type_numeric()},
     {"name": "option_1", "datatype": dbt_utils.type_string()},
     {"name": "option_2", "datatype": dbt_utils.type_string()},
     {"name": "option_3", "datatype": dbt_utils.type_string()},
+    {"name": "position", "datatype": dbt_utils.type_numeric()},
+    {"name": "price", "datatype": dbt_utils.type_float()},
+    {"name": "requires_shipping", "datatype": "boolean", "alias": "is_requiring_shipping"},
+    {"name": "sku", "datatype": dbt_utils.type_string()},
     {"name": "tax_code", "datatype": dbt_utils.type_string()},
-    {"name": "old_inventory_quantity", "datatype": dbt_utils.type_numeric()},
-    {"name": "requires_shipping", "datatype": "boolean", "alias": "is_requiring_shipping"}
+    {"name": "taxable", "datatype": "boolean", "alias": "is_taxable"},
+    {"name": "title", "datatype": dbt_utils.type_string()},
+    {"name": "updated_at", "datatype": dbt_utils.type_timestamp(), "alias": "updated_timestamp"},
+    {"name": "weight", "datatype": dbt_utils.type_float()},
+    {"name": "weight_unit", "datatype": dbt_utils.type_string()},
+    {"name": "image_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "inventory_item_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "product_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "shop_id", "datatype": dbt_utils.type_string()},
+    {"name": "myshopify_domain", "datatype": dbt_utils.type_string()},
+    {"name": "shop_country_code", "datatype": dbt_utils.type_string()},
+    {"name": "umg_report_date", "datatype": "date"},
+    {"name": "umg_load_time", "datatype": dbt_utils.type_timestamp()},
+    {"name": "umg_updated_at", "datatype": "date"},
 ] %}
 
 {{ return(columns) }}
