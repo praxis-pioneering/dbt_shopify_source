@@ -98,15 +98,19 @@
 {% macro get_order_line_refund_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
-    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "order_line_refund_id"},
-    {"name": "location_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "order_line_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "subtotal", "datatype": dbt_utils.type_numeric()},
-    {"name": "total_tax", "datatype": dbt_utils.type_numeric()},
-    {"name": "quantity", "datatype": dbt_utils.type_float()},
     {"name": "refund_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "restock_type", "datatype": dbt_utils.type_string()}
+    {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "order_line_refund_id"},
+    {"name": "quantity", "datatype": dbt_utils.type_float()},
+    {"name": "line_item_id", "datatype": dbt_utils.type_numeric(), "alias": "order_line_id"},
+    {"name": "shipped_quantity", "datatype": dbt_utils.type_numeric()},
+    {"name": "location_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "total_tax", "datatype": dbt_utils.type_numeric()},
+    {"name": "subtotal", "datatype": dbt_utils.type_numeric()},
+    {"name": "restock_type", "datatype": dbt_utils.type_string()},
+    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "shop_id", "datatype": dbt_utils.type_string()},
+    {"name": "myshopify_domain", "datatype": dbt_utils.type_string()},
+    {"name": "umg_report_date", "datatype": "date"},
 ] %}
 
 {{ return(columns) }}
@@ -116,32 +120,34 @@
 {% macro get_order_line_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
     {"name": "fulfillable_quantity", "datatype": dbt_utils.type_numeric()},
     {"name": "fulfillment_service", "datatype": dbt_utils.type_string()},
     {"name": "fulfillment_status", "datatype": dbt_utils.type_string()},
     {"name": "gift_card", "datatype": "boolean", "alias": "is_gift_card"},
     {"name": "grams", "datatype": dbt_utils.type_numeric()},
     {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "order_line_id"},
-    {"name": "index", "datatype": dbt_utils.type_numeric()},
     {"name": "name", "datatype": dbt_utils.type_string()},
-    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
     {"name": "pre_tax_price", "datatype": dbt_utils.type_float()},
     {"name": "price", "datatype": dbt_utils.type_float()},
-    {"name": "product_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "property_charge_interval_frequency", "datatype": dbt_utils.type_numeric()},
-    {"name": "property_for_shipping_jan_3_rd_2020", "datatype": dbt_utils.type_string()},
-    {"name": "property_shipping_interval_frequency", "datatype": dbt_utils.type_numeric()},
-    {"name": "property_shipping_interval_unit_type", "datatype": dbt_utils.type_string()},
-    {"name": "property_subscription_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "product_exists", "datatype": "boolean"},
     {"name": "quantity", "datatype": dbt_utils.type_numeric()},
     {"name": "requires_shipping", "datatype": "boolean", "alias": "is_requiring_shipping"},
     {"name": "sku", "datatype": dbt_utils.type_string()},
     {"name": "taxable", "datatype": "boolean", "alias": "is_taxable"},
     {"name": "title", "datatype": dbt_utils.type_string()},
     {"name": "total_discount", "datatype": dbt_utils.type_float()},
+    {"name": "variant_inventory_management", "datatype": dbt_utils.type_string()},
+    {"name": "variant_title", "datatype": dbt_utils.type_string()},
+    {"name": "vendor", "datatype": dbt_utils.type_string()},
+    {"name": "product_id", "datatype": dbt_utils.type_numeric()},
     {"name": "variant_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "vendor", "datatype": dbt_utils.type_string()}
+    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "billing_address_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "myshopify_domain", "datatype": dbt_utils.type_string()},
+    {"name": "shop_id", "datatype": dbt_utils.type_string()},
+    {"name": "shop_country_code", "datatype": dbt_utils.type_string()},
+    {"name": "umg_report_date", "datatype": "date"},
+    {"name": "umg_load_time", "datatype": dbt_utils.type_timestamp()},
 ] %}
 
 {{ return(columns) }}
@@ -271,14 +277,16 @@
 {% macro get_refund_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_synced", "datatype": dbt_utils.type_timestamp()},
     {"name": "created_at", "datatype": dbt_utils.type_timestamp()},
+    {"name": "processed_at", "datatype": dbt_utils.type_timestamp()},
     {"name": "id", "datatype": dbt_utils.type_numeric(), "alias": "refund_id"},
     {"name": "note", "datatype": dbt_utils.type_string()},
-    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
-    {"name": "processed_at", "datatype": dbt_utils.type_timestamp()},
     {"name": "restock", "datatype": "boolean"},
-    {"name": "user_id", "datatype": dbt_utils.type_numeric()}
+    {"name": "user_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "order_id", "datatype": dbt_utils.type_numeric()},
+    {"name": "shop_id", "datatype": dbt_utils.type_string()},
+    {"name": "myshopify_domain", "datatype": dbt_utils.type_string()},
+    {"name": "umg_report_date", "datatype": "date"},
 ] %}
 
 {{ return(columns) }}
