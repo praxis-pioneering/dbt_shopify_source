@@ -7,9 +7,7 @@ sources:
     tables:
       - name: order
         description: Each record represents an order in Shopify.
-        identifier: "{%- if target.type == 'snowflake' -%} ORDER {%- else -%} order {%- endif -%}"
-        quoting:
-          identifier: true
+        identifier: shopify_orders
         columns:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
@@ -143,25 +141,26 @@ sources:
             description: The date and time (ISO 8601 format) when the order was last modified.
           - name: user_id
             description: The ID of the user logged into Shopify POS who processed the order, if applicable.
-      - name: customer
+      - name: customers
+        identifier: shopify_customers
         description: Each record represents a customer in Shopify.
         columns:
-          - name: _fivetran_synced
-            description: "{{ doc('_fivetran_synced') }}"
+          # - name: _fivetran_synced
+          #   description: "{{ doc('_fivetran_synced') }}"
           - name: accepts_marketing
             description: Whether the customer has consented to receive marketing material via email.
           - name: created_at
             description: The date and time when the customer was created.
-          - name: default_address_id
-            description: The default address for the customer.
-          - name: email
-            description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
-          - name: first_name
-            description: The customer's first name.
+          # - name: default_address_id
+          #   description: The default address for the customer.
+          # - name: email
+          #   description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
+          # - name: first_name
+          #   description: The customer's first name.
           - name: id
             description: A unique identifier for the customer.
-          - name: last_name
-            description: The customer's last name.
+          # - name: last_name
+          #   description: The customer's last name.
           - name: orders_count
             description: The number of orders associated with this customer.
           - name: phone
@@ -177,6 +176,7 @@ sources:
           - name: verified_email
             description: Whether the customer has verified their email address.
       - name: order_line
+        identifier: shopify_orders_line_items
         description: Each record represents a line item for an order in Shopify.
         columns:
           - name: _fivetran_synced
@@ -218,6 +218,7 @@ sources:
           - name: vendor
             description: The name of the item's supplier.
       - name: order_line_refund
+        identifier: shopify_orders_refunds_refund_line_items
         description: Each record represents a line item refund in Shopify.
         columns:
           - name: _fivetran_synced
@@ -239,6 +240,7 @@ sources:
           - name: total_tax
             description: The total tax applied to the refund.
       - name: product
+        identifier: shopify_products
         description: Each record represents a product in Shopify.
         columns:
           - name: _fivetran_deleted
@@ -264,6 +266,7 @@ sources:
           - name: vendor
             description: The name of the product's vendor.
       - name: product_variant
+        identifier: shopify_products_variants
         description: Each record represents a product variant in Shopify
         columns:
           - name: barcode
@@ -327,6 +330,7 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
       - name: transaction
+        identifier: shopify_orders_transactions
         description: Each record represents a transaction in Shopify.
         columns:
           - name: transaction_id
@@ -392,6 +396,7 @@ sources:
           - name: _fivetran_synced
             description: "{{ doc('_fivetran_synced') }}"
       - name: refund
+        identifier: shopify_orders_refunds
         description: Each record represents a refund within Shopify.
         columns:
           - name: id
@@ -413,6 +418,7 @@ sources:
           - name: order_id
             description: Reference to the order which the refund is associated.
       - name: order_adjustment
+        identifier: shopify_orders_refunds_order_adjustments
         description: Each record represents and adjustment to and order within Shopify.
         columns:
           - name: id

@@ -12,8 +12,10 @@ models:
       +materialized: view
 
 vars:
+  shopify_database: umg-audience-data
+  shopify_schema: ecommerce
   shopify_source:
-    customer_source: "{{ source('shopify','customer') }}"
+    customer_source: "{{ source('shopify','customers') }}"
     order_line_refund_source: "{{ source('shopify','order_line_refund') }}"
     order_line_source: "{{ source('shopify','order_line') }}"
     order_source: "{{ source('shopify','order') }}"
@@ -33,3 +35,4 @@ vars:
     shopify__using_order_adjustment: true
     shopify__using_order_line_refund: true
     shopify__using_refund: true
+
